@@ -4,19 +4,19 @@ Follow these steps to get the same neovim experience as me.
 * Make sure you've got the latest neovim version.
     * type `nvim --version` in the terminal. It should be at least 0.6.0
     * if it is not get the latest version
-        ```
-            curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz
+        ``` curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz
             sudo rm -rf /opt/nvim
             sudo tar -C /opt -xzf nvim-linux64.tar.gz
-            export PATH="$PATH:/opt/nvim-linux64/bin"
-        ```
+            export PATH="$PATH:/opt/nvim-linux64/bin" ```
 
 * First install the package manager. I am using [Packer.nvim](https://github.com/wbthomason/packer.nvim)
     ```git clone --depth 1 https://github.com/wbthomason/packer.nvim\
     ~/.local/share/nvim/site/pack/packer/start/packer.nvim```
 
 * Clone this repository inside .config directory
-    ```https://github.com/therealsunx/nvim-config ~/.config/nvim```
+    ```
+        https://github.com/therealsunx/nvim-config ~/.config/nvim
+    ```
 
 * Open nvim (Don't worry if you see some errors. We have to install packages first)
 
