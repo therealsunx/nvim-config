@@ -53,9 +53,8 @@ require('packer').startup(function(use)
             { 'L3MON4D3/LuaSnip' },
         }
     }
-    use('dart-lang/dart-vim-plugin')
-    use('thosakwe/vim-flutter')
     use "ellisonleao/gruvbox.nvim"
+    use "christoomey/vim-tmux-navigator"
 end)
 
 vim.cmd("colorscheme gruvbox")
@@ -96,11 +95,13 @@ vim.keymap.set("n", '<leader>a', mark.add_file)
 vim.keymap.set("n", '<leader>e', ui.toggle_quick_menu)
 
 vim.keymap.set('n', '<leader>pf', builtin.find_files, {})
-vim.keymap.set('n', '<C-p>', builtin.git_files, {})
+vim.keymap.set('n', '<leader>gf', builtin.git_files, {})
 vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
 vim.keymap.set('n', '<leader>sg', function()
     builtin.grep_string({ search = vim.fn.input("Grep > ") })
 end)
+--vim.keymap.set('n', '<leader>sw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
+--vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[S]earch by [G]rep' })
 
 vim.keymap.set("n", '<leader>u', vim.cmd.UndotreeToggle)
 vim.keymap.set("n", '<leader>gs', vim.cmd.Git)
@@ -123,11 +124,14 @@ vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
 vim.keymap.set("n", "<leader>f", function() vim.lsp.buf.format() end)
 vim.keymap.set("n", '<leader>s', ":%s/\\<<C-r><C-w>\\>//gI<Left><Left><Left>")
 vim.keymap.set("n", '<leader>vs', vim.cmd.vsplit)
+vim.keymap.set("n", '<leader>hs', vim.cmd.split)
 vim.keymap.set("n", "<C-h>", "<C-w>h")
 vim.keymap.set("n", "<C-l>", "<C-w>l")
+vim.keymap.set("n", "<C-k>", "<C-w>k")
+vim.keymap.set("n", "<C-j>", "<C-w>j")
 
 vim.keymap.set("n", ".", function() vim.cmd("10winc >") end)
 vim.keymap.set("n", ",", function() vim.cmd("10winc <") end)
-vim.keymap.set("v", "<C-k>", ":s/\\(.*\\)/\\/\\/\\1<Enter>")
-vim.keymap.set("n", "<C-k>", "I// <Esc>j")
+-- vim.keymap.set("v", "<C-k>", ":s/\\(.*\\)/\\/\\/\\1<Enter>")
+-- vim.keymap.set("n", "<C-k>", "I// <Esc>j")
 
