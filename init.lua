@@ -2,6 +2,12 @@
 print("Welcome back !")
 vim.g.mapleader = " "
 
+
+vim.g.netrw_liststyle = 3
+vim.g.netrw_winsize = 40
+vim.g.netrw_hide = 0
+vim.g.netrw_banner = 0
+
 vim.opt.nu = true
 vim.opt.softtabstop = 4
 vim.opt.shiftwidth = 4
@@ -55,6 +61,7 @@ require('packer').startup(function(use)
     }
     use "ellisonleao/gruvbox.nvim"
     use "christoomey/vim-tmux-navigator"
+    use "akinsho/flutter-tools.nvim"
 end)
 
 vim.cmd("colorscheme gruvbox")
@@ -90,7 +97,12 @@ require('mason-lspconfig').setup({
     handlers = { lsp_zero.default_setup }
 })
 
-vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
+vim.api.nvim_create_user_command('E', function(opts)
+    local cd = vim.fn.expand('%:p:h')
+    vim.cmd('e ' .. vim.fn.fnameescape(cd .. '/' .. opts.args))
+end, {nargs = 1})
+
+vim.keymap.set("n", "<leader>pv", vim.cmd.Vexplore)
 vim.keymap.set("n", '<leader>a', mark.add_file)
 vim.keymap.set("n", '<leader>e', ui.toggle_quick_menu)
 
@@ -132,6 +144,6 @@ vim.keymap.set("n", "<C-j>", "<C-w>j")
 
 vim.keymap.set("n", ".", function() vim.cmd("10winc >") end)
 vim.keymap.set("n", ",", function() vim.cmd("10winc <") end)
+
 -- vim.keymap.set("v", "<C-k>", ":s/\\(.*\\)/\\/\\/\\1<Enter>")
 -- vim.keymap.set("n", "<C-k>", "I// <Esc>j")
-
