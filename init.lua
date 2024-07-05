@@ -133,7 +133,10 @@ vim.keymap.set("n", "<leader>Y", "\"+Y")
 vim.keymap.set("n", "<leader>d", "\"_d")
 vim.keymap.set("v", "<leader>d", "\"_d")
 vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
-vim.keymap.set("n", "<leader>f", function() vim.lsp.buf.format() end)
+
+vim.keymap.set("n", "<leader>fr", function() vim.lsp.buf.format() end)
+vim.keymap.set("n", "<leader>ca", function() vim.lsp.buf.code_action() end)
+
 vim.keymap.set("n", '<leader>s', ":%s/\\<<C-r><C-w>\\>//gI<Left><Left><Left>")
 vim.keymap.set("n", '<leader>vs', vim.cmd.vsplit)
 vim.keymap.set("n", '<leader>hs', vim.cmd.split)
@@ -144,6 +147,11 @@ vim.keymap.set("n", "<C-j>", "<C-w>j")
 
 vim.keymap.set("n", ".", function() vim.cmd("10winc >") end)
 vim.keymap.set("n", ",", function() vim.cmd("10winc <") end)
+
+vim.keymap.set("n", "<C-]>", "<C-w>5-")
+vim.keymap.set("n", "<C-[>", "<C-w>5+")
+
+vim.keymap.set("n", "<BS>", "<C-6>")
 
 -- vim.keymap.set("v", "<C-k>", ":s/\\(.*\\)/\\/\\/\\1<Enter>")
 -- vim.keymap.set("n", "<C-k>", "I// <Esc>j")
