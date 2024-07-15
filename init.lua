@@ -28,6 +28,24 @@ vim.opt.colorcolumn = "100"
 
 vim.cmd [[packadd packer.nvim]]
 
+-- -------- Esc exits from unmodifiable buffers 
+function CloseFloatingWindow()
+  local buf = vim.api.nvim_get_current_buf()
+  local is_modifiable = vim.api.nvim_buf_get_option(buf, 'modifiable')
+
+  if not is_modifiable then
+    vim.cmd('silent! bd')
+  end
+end
+
+vim.cmd([[
+augroup CloseNonModifiableBuffers
+  autocmd!
+  autocmd BufEnter * if !&modifiable || &buftype == 'nofile' | silent! nnoremap <buffer> <Esc> :lua CloseFloatingWindow()<CR> | endif
+augroup END
+]])
+-- --------------------------------------------
+
 require('packer').startup(function(use)
     use 'wbthomason/packer.nvim'
     use {
@@ -84,7 +102,7 @@ local builtin = require('telescope.builtin')
 local lsp_zero = require('lsp-zero')
 
 lsp_zero.on_attach(function(client, bufnr)
-lsp_zero.default_keymaps({ buffer = bufnr })
+    lsp_zero.default_keymaps({ buffer = bufnr })
 end)
 
 require('mason').setup({})
@@ -100,7 +118,7 @@ require('mason-lspconfig').setup({
 vim.api.nvim_create_user_command('E', function(opts)
     local cd = vim.fn.expand('%:p:h')
     vim.cmd('e ' .. vim.fn.fnameescape(cd .. '/' .. opts.args))
-end, {nargs = 1})
+end, { nargs = 1 })
 
 vim.keymap.set("n", "<leader>pv", vim.cmd.Vexplore)
 vim.keymap.set("n", '<leader>a', mark.add_file)
