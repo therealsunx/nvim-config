@@ -2,21 +2,20 @@
 print("Welcome back !")
 vim.g.mapleader = " "
 
-
 vim.g.netrw_liststyle = 3
 vim.g.netrw_winsize = 40
 vim.g.netrw_hide = 0
 vim.g.netrw_banner = 0
 
 vim.opt.nu = true
-vim.opt.softtabstop = 4
-vim.opt.shiftwidth = 4
+vim.opt.softtabstop = 2
+vim.opt.shiftwidth = 2
 vim.opt.expandtab = true
 vim.opt.smartindent = true
 vim.opt.wrap = false
 vim.opt.swapfile = false
 vim.opt.relativenumber = true
-vim.opt.tabstop = 4
+vim.opt.tabstop = 2
 vim.opt.hlsearch = false
 vim.opt.incsearch = true
 vim.opt.termguicolors = true
@@ -25,10 +24,12 @@ vim.opt.signcolumn = "yes"
 vim.opt.isfname:append("@-@")
 vim.opt.updatetime = 50
 vim.opt.colorcolumn = "100"
+vim.opt.linebreak = true
+vim.opt.wrap = true
 
 vim.cmd [[packadd packer.nvim]]
 
--- -------- Esc exits from unmodifiable buffers 
+-- -------- Esc exits from unmodifiable buffers
 function CloseFloatingWindow()
   local buf = vim.api.nvim_get_current_buf()
   local is_modifiable = vim.api.nvim_buf_get_option(buf, 'modifiable')
@@ -47,39 +48,39 @@ augroup END
 -- --------------------------------------------
 
 require('packer').startup(function(use)
-    use 'wbthomason/packer.nvim'
-    use {
-        'nvim-telescope/telescope.nvim', tag = '0.1.6',
-        -- or                            , branch = '0.1.x',
-        requires = { { 'nvim-lua/plenary.nvim' } }
+  use 'wbthomason/packer.nvim'
+  use {
+    'nvim-telescope/telescope.nvim', tag = '0.1.6',
+    -- or                            , branch = '0.1.x',
+    requires = { { 'nvim-lua/plenary.nvim' } }
+  }
+  --use({
+  --    'rose-pine/neovim',
+  --    as = 'rose-pine',
+  --    config = function()
+  --        vim.cmd('colorscheme rose-pine')
+  --    end
+  --})
+  use('nvim-treesitter/nvim-treesitter', { run = ':TSUpdate' })
+  use('ThePrimeagen/harpoon')
+  use('mbbill/undotree')
+  use('tpope/vim-fugitive')
+  use {
+    'VonHeikemen/lsp-zero.nvim',
+    branch = 'v3.x',
+    requires = {
+      --- Uncomment the two plugins below if you want to manage the language servers from neovim
+      { 'williamboman/mason.nvim' },
+      { 'williamboman/mason-lspconfig.nvim' },
+      { 'neovim/nvim-lspconfig' },
+      { 'hrsh7th/nvim-cmp' },
+      { 'hrsh7th/cmp-nvim-lsp' },
+      { 'L3MON4D3/LuaSnip' },
     }
-    --use({
-    --    'rose-pine/neovim',
-    --    as = 'rose-pine',
-    --    config = function()
-    --        vim.cmd('colorscheme rose-pine')
-    --    end
-    --})
-    use('nvim-treesitter/nvim-treesitter', { run = ':TSUpdate' })
-    use('ThePrimeagen/harpoon')
-    use('mbbill/undotree')
-    use('tpope/vim-fugitive')
-    use {
-        'VonHeikemen/lsp-zero.nvim',
-        branch = 'v3.x',
-        requires = {
-            --- Uncomment the two plugins below if you want to manage the language servers from neovim
-            { 'williamboman/mason.nvim' },
-            { 'williamboman/mason-lspconfig.nvim' },
-            { 'neovim/nvim-lspconfig' },
-            { 'hrsh7th/nvim-cmp' },
-            { 'hrsh7th/cmp-nvim-lsp' },
-            { 'L3MON4D3/LuaSnip' },
-        }
-    }
-    use "ellisonleao/gruvbox.nvim"
-    use "christoomey/vim-tmux-navigator"
-    use "akinsho/flutter-tools.nvim"
+  }
+  use "ellisonleao/gruvbox.nvim"
+  use "christoomey/vim-tmux-navigator"
+  use "akinsho/flutter-tools.nvim"
 end)
 
 vim.cmd("colorscheme gruvbox")
@@ -87,13 +88,13 @@ vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
 vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
 
 require 'nvim-treesitter.configs'.setup {
-    ensure_installed = { "c", "c_sharp", "lua", "javascript", "typescript", "python", "css", "hlsl", "vim" },
-    sync_install = false,
-    auto_install = true,
-    highlight = {
-        enable = true,
-        additional_vim_regex_highlighting = false,
-    },
+  ensure_installed = { "c", "c_sharp", "lua", "javascript", "typescript", "python", "css", "hlsl", "vim" },
+  sync_install = false,
+  auto_install = true,
+  highlight = {
+    enable = true,
+    additional_vim_regex_highlighting = false,
+  },
 }
 
 local mark = require("harpoon.mark")
@@ -102,22 +103,22 @@ local builtin = require('telescope.builtin')
 local lsp_zero = require('lsp-zero')
 
 lsp_zero.on_attach(function(client, bufnr)
-    lsp_zero.default_keymaps({ buffer = bufnr })
+  lsp_zero.default_keymaps({ buffer = bufnr })
 end)
 
 require('mason').setup({})
 require('mason-lspconfig').setup({
-    ensure_installed = {
-        'tsserver',
-        'pyright',
-        'omnisharp',
-    },
-    handlers = { lsp_zero.default_setup }
+  ensure_installed = {
+    'tsserver',
+    'pyright',
+    'omnisharp',
+  },
+  handlers = { lsp_zero.default_setup }
 })
 
 vim.api.nvim_create_user_command('E', function(opts)
-    local cd = vim.fn.expand('%:p:h')
-    vim.cmd('e ' .. vim.fn.fnameescape(cd .. '/' .. opts.args))
+  local cd = vim.fn.expand('%:p:h')
+  vim.cmd('e ' .. vim.fn.fnameescape(cd .. '/' .. opts.args))
 end, { nargs = 1 })
 
 vim.keymap.set("n", "<leader>pv", vim.cmd.Vexplore)
@@ -128,7 +129,7 @@ vim.keymap.set('n', '<leader>pf', builtin.find_files, {})
 vim.keymap.set('n', '<leader>gf', builtin.git_files, {})
 vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
 vim.keymap.set('n', '<leader>sg', function()
-    builtin.grep_string({ search = vim.fn.input("Grep > ") })
+  builtin.grep_string({ search = vim.fn.input("Grep > ") })
 end)
 --vim.keymap.set('n', '<leader>sw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
 --vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[S]earch by [G]rep' })
