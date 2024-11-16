@@ -2,6 +2,7 @@
 print("Welcome back !")
 vim.g.mapleader = " "
 
+
 vim.g.netrw_liststyle = 3
 vim.g.netrw_winsize = 20
 vim.g.netrw_hide = 0
@@ -15,7 +16,7 @@ vim.opt.smartindent = true
 vim.opt.wrap = false
 vim.opt.swapfile = false
 vim.opt.relativenumber = true
-vim.opt.tabstop = 2
+vim.opt.tabstop = 4
 vim.opt.hlsearch = false
 vim.opt.incsearch = true
 vim.opt.termguicolors = true
@@ -23,11 +24,11 @@ vim.opt.scrolloff = 8
 vim.opt.signcolumn = "yes"
 vim.opt.isfname:append("@-@")
 vim.opt.updatetime = 50
-vim.opt.colorcolumn = "80"
+vim.opt.colorcolumn = "100"
 
 vim.cmd [[packadd packer.nvim]]
 
--- -------- Esc exits from unmodifiable buffers
+-- -------- Esc exits from unmodifiable buffers 
 function CloseFloatingWindow()
     local buf = vim.api.nvim_get_current_buf()
     local is_modifiable = vim.api.nvim_buf_get_option(buf, 'modifiable')
@@ -44,6 +45,20 @@ augroup CloseNonModifiableBuffers
 augroup END
 ]])
 -- --------------------------------------------
+function _G.set_terminal_keymaps()
+  local opts = {buffer = 0}
+  vim.keymap.set('t', '<esc>', [[<C-\><C-n>]], opts)
+  vim.keymap.set('t', 'jk', [[<C-\><C-n>]], opts)
+  vim.keymap.set('t', '<C-h>', [[<Cmd>wincmd h<CR>]], opts)
+  vim.keymap.set('t', '<C-j>', [[<Cmd>wincmd j<CR>]], opts)
+  vim.keymap.set('t', '<C-k>', [[<Cmd>wincmd k<CR>]], opts)
+  vim.keymap.set('t', '<C-l>', [[<Cmd>wincmd l<CR>]], opts)
+  vim.keymap.set('t', '<C-w>', [[<C-\><C-n><C-w>]], opts)
+end
+
+-- if you only want these mappings for toggle term use term://*toggleterm#* instead
+vim.cmd('autocmd! TermOpen term://* lua set_terminal_keymaps()')
+
 
 require('packer').startup(function(use)
     use 'wbthomason/packer.nvim'
@@ -52,13 +67,6 @@ require('packer').startup(function(use)
         -- or                            , branch = '0.1.x',
         requires = { { 'nvim-lua/plenary.nvim' } }
     }
-    use({
-        'rose-pine/neovim',
-        as = 'rose-pine',
-        config = function()
-            vim.cmd('colorscheme rose-pine')
-        end
-    })
     use('nvim-treesitter/nvim-treesitter', { run = ':TSUpdate' })
     use('ThePrimeagen/harpoon')
     use('mbbill/undotree')
@@ -114,7 +122,6 @@ require("gruvbox").setup({
     transparent_mode = false,
 })
 
---vim.cmd("colorscheme rose-pine-moon")
 vim.cmd("colorscheme gruvbox")
 
 vim.api.nvim_set_hl(0, "Normal", { bg = "#161410" })
@@ -142,7 +149,6 @@ end)
 require('mason').setup({})
 require('mason-lspconfig').setup({
     ensure_installed = {
-        'tsserver',
         'pyright',
         'omnisharp',
     },
