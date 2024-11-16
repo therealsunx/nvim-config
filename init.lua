@@ -86,7 +86,6 @@ require('packer').startup(function(use)
     }
     use "ellisonleao/gruvbox.nvim"
     use "christoomey/vim-tmux-navigator"
-    use "akinsho/flutter-tools.nvim"
 end)
 
 
